@@ -1,12 +1,20 @@
 <template>
   <div class="d-flex flex-column align-items-center justify-content-around">
-    <div>b</div>
-    <div>
-      <base-button to="home" type="success" outline disabled submit>Belépés</base-button>
+    <div class="form">
+      
+      <base-button type="danger" size="lg" outline>Belépés</base-button>
     </div>
   </div>
 </template>
 
 <script setup></script>
 
-<style></style>
+<style lang="scss" scoped>
+.form {
+  button {
+    font-size: 3.5rem;
+    font-weight: 700;
+    border-width: 0.3rem;
+  }
+}
+</style>
