@@ -1,30 +1,50 @@
 <template>
-  <nav>
-    <router-link to="/">Home</router-link> |
-    <router-link to="/about">About</router-link>
-  </nav>
-  <router-view />
+  <div id="fo" class="container-fluid d-flex flex-column justify-content-between">
+    <the-header />
+
+    <router-view v-slot="slotProps">
+      <transition name="route" mode="out-in">
+        <component class="flex-grow-1" :is="slotProps.Component" />
+      </transition>
+    </router-view>
+
+    <!-- <the-footer v-if="footer" /> -->
+  </div>
 </template>
 
+<script setup>
+import TheHeader from './components/layout/TheHeader.vue';
+</script>
+
 <style lang="scss">
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
+.route-enter-from {
+  opacity: 0;
+  transform: translateY(-30px);
 }
 
-nav {
-  padding: 30px;
+.route-leave-to {
+  opacity: 0;
+  transform: translateY(30px);
+}
 
-  a {
-    font-weight: bold;
-    color: #2c3e50;
+.route-enter-active {
+  transition: all 0.3s ease-out;
+}
 
-    &.router-link-exact-active {
-      color: #42b983;
-    }
-  }
+.route-leave-active {
+  transition: all 0.3s ease-in;
+}
+
+.route-enter-to,
+.route-leave-from {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.container-fluid {
+  padding: 0;
+}
+#fo {
+  min-height: 100vh;
 }
 </style>
