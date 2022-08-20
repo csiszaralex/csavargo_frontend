@@ -8,8 +8,12 @@ import '@/config/axios';
 import BaseButton from './components/UI/BaseButton.vue';
 import BaseInput from './components/UI/BaseInput.vue';
 import BaseDialog from './components/UI/BaseDialog.vue';
+import { getItem } from './utility/localStorage';
 
-//TODO ha van login átirányít
+if (getItem('token')) {
+  store.dispatch('changeAuth', { token: getItem('token') });
+  store.dispatch('renew');
+}
 
 const app = createApp(App);
 

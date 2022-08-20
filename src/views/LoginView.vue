@@ -9,8 +9,15 @@
 </template>
 
 <script setup>
+//TODO animált háttér
 import { ref, watch } from 'vue';
+import { useStore } from 'vuex';
+import { useRouter, useRoute } from 'vue-router';
 import axios from 'axios';
+
+const store = useStore();
+const router = useRouter();
+const route = useRoute();
 
 const inp = ref('');
 watch(inp, (val, oldVal) => {
@@ -29,13 +36,13 @@ function login() {
       code: inp.value,
     })
     .then(res => {
-      console.log(res);
-      inp.value = '';
+      store.dispatch('changeAuth', { token: res.data.accessToken });
+      router.replace(route.query.redirect ? `${route.query.redirect}` : '/');
     })
     .catch(err => {
       error.value = err.response.data.message;
-      inp.value = '';
     });
+  inp.value = '';
 }
 </script>
 

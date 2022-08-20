@@ -1,0 +1,5 @@
+const JWT_SECRET = 'secret';
+const JWT_HOSSZABBIT_ELOTTE_SEC = 60;
+const PAGE_NAME = 'Csavargó';
+
+export { JWT_SECRET, JWT_HOSSZABBIT_ELOTTE_SEC, PAGE_NAME };
