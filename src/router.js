@@ -31,7 +31,6 @@ router.beforeEach((to, from, next) => {
   next();
 });
 
-//TODO login + title
 //TODO 404
 
 export default router;
