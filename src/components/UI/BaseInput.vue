@@ -1,7 +1,12 @@
 <template>
   <div>
     <div class="inputBox">
-      <input type="text" required="required" v-model="value" :autofocus="autofocus" />
+      <input
+        type="text"
+        required="required"
+        :value="value"
+        @keyup="e => (value = e.target.value)"
+        :autofocus="autofocus" />
       <span>Kód</span>
     </div>
   </div>
