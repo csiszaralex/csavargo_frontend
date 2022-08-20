@@ -49,8 +49,12 @@
 </template>
 
 <script setup>
-//TODO ha alex van belépve akkor extragombok
-const admin = false;
+import { computed } from 'vue';
+import { useStore } from 'vuex';
+const store = useStore();
+const admin = computed(() => {
+  return store.getters.isAdmin;
+});
 </script>
 
 <style></style>
