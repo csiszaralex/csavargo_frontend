@@ -7,8 +7,6 @@
         <component class="flex-grow-1" :is="slotProps.Component" />
       </transition>
     </router-view>
-
-    <!-- <the-footer v-if="footer" /> -->
   </div>
 </template>
 
