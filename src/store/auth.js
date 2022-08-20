@@ -91,7 +91,7 @@ export default {
       ctx.commit('changeAuth', { user: null, token: null });
       localStorage.clear();
       axios.defaults.headers.common['Authorization'] = null;
-      router.replace('/');
+      router.replace('/login');
     },
   },
 };
