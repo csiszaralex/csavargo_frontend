@@ -43,6 +43,9 @@
             </li>
           </ul>
         </div>
+        <div v-if="auth">
+          <base-button @click="logout">Kilépés</base-button>
+        </div>
       </div>
     </nav>
   </div>
@@ -55,6 +58,12 @@ const store = useStore();
 const admin = computed(() => {
   return store.getters.isAdmin;
 });
+const auth = computed(() => {
+  return store.getters.isLoggedIn;
+});
+function logout() {
+  store.dispatch('logout');
+}
 </script>
 
 <style></style>
