@@ -6,6 +6,7 @@
         required="required"
         :value="value"
         @keyup="e => (value = e.target.value)"
+        @input="e => (value = e.target.value)"
         :autofocus="autofocus" />
       <span>Kód</span>
     </div>
