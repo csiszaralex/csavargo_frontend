@@ -14,7 +14,7 @@
 </template>
 
 <script setup>
-import { ref, watch } from 'vue';
+import { computed, ref, watch } from 'vue';
 
 const props = defineProps({
   modelValue: { type: String, required: true },
@@ -34,13 +34,17 @@ watch(
 watch(value, val => {
   emits('update:modelValue', val);
 });
+const autofocus = computed(() => {
+  if (!('userAgentData' in navigator)) return false;
+  return props.autofocus && !navigator.userAgentData.mobile;
+});
 </script>
 
 <style lang="scss" scoped>
 $szin1: darken($primary, 10%);
 $okay: $primary;
 $size: 3rem;
-
+// TODO Bill nem jön fel autofocuon telon
 .inputBox {
   position: relative;
   width: 85vw;
@@ -57,8 +61,8 @@ $size: 3rem;
     &:valid ~ span,
     &:focus ~ span {
       color: $bg;
-      transform: translateX(0.3 * $size) translateY(-0.48 * $size);
-      font-size: 0.65 * $size;
+      transform: translateX(0.3 * $size) translateY(-0.3 * $size);
+      font-size: 0.45 * $size;
       padding: 0 10px;
       background: $okay;
       letter-spacing: 0.2em;
@@ -76,7 +80,7 @@ $size: 3rem;
     pointer-events: none;
     font-size: $size;
     color: $szin1;
-    text-transform: uppercase;
+    // text-transform: uppercase;
     transition: 0.5s;
   }
 }

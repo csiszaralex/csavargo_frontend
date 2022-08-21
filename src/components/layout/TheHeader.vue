@@ -1,9 +1,5 @@
 <template>
   <div>
-    <nav class="d-none">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/login">LOGIN</router-link>
-    </nav>
     <nav class="navbar navbar-expand-lg">
       <div class="container-fluid d-flex align-items-center flex-row justify-content-around">
         <a class="navbar-brand csavargo" href="#">Csavargó</a>
