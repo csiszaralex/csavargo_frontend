@@ -2,9 +2,11 @@ import { createRouter, createWebHistory } from 'vue-router';
 import { PAGE_NAME } from '@/config/config';
 import store from '@/store';
 import HomeView from '@/views/HomeView.vue';
+import TaskView from '@/views/TaskView.vue';
 
 const routes = [
   { path: '/', name: 'home', component: HomeView, meta: { title: 'Játék', auth: true } },
+  { path: '/task', name: 'task', component: TaskView, meta: { title: 'Feladat', auth: true } },
   {
     path: '/login',
     name: 'login',
@@ -24,8 +26,10 @@ router.beforeEach((to, from, next) => {
     const loggedIn = store.getters.isLoggedIn;
     if (!loggedIn && to.meta.auth) {
       router.replace(`/login?redirect=${to.path}`);
+      return;
     } else if (loggedIn && !to.meta.auth) {
       next('/');
+      return;
     }
   }
   next();
