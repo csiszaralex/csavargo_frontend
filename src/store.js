@@ -1,9 +1,11 @@
 import { createStore } from 'vuex';
 import Auth from '@/store/auth';
+import Task from '@/store/task';
 
 export default createStore({
   modules: {
     Auth,
+    Task,
   },
   state: {},
   getters: {},
