@@ -2,7 +2,7 @@
   <div>
     <nav class="navbar navbar-expand-lg">
       <div class="container-fluid d-flex align-items-center flex-row justify-content-around">
-        <a class="navbar-brand csavargo" href="#">Csavargó</a>
+        <a class="navbar-brand csavargo" href="/login">Csavargó</a>
         <button
           v-if="admin"
           class="navbar-toggler"

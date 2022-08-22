@@ -1,7 +1,7 @@
 <template>
   <div class="d-flex flex-column align-items-center justify-content-around">
     <div class="form">
-      <base-input v-model="inp" autofocus>Belépési kód</base-input>
+      <base-input v-model="inp" large autofocus>Belépési kód</base-input>
       <base-button type="danger" size="lg" outline @click="login">Belépés</base-button>
     </div>
     <base-dialog :show="!!error" @close="error = ''"> {{ error }} </base-dialog>

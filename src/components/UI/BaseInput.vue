@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="inputBox">
+    <div class="inputBox" :class="props.large ? 'large' : ''">
       <input
         type="text"
         required="required"
@@ -8,7 +8,9 @@
         @keyup="e => (value = e.target.value)"
         @input="e => (value = e.target.value)"
         :autofocus="autofocus" />
-      <span>Kód</span>
+      <span>
+        <slot></slot>
+      </span>
     </div>
   </div>
 </template>
@@ -19,6 +21,7 @@ import { computed, ref, watch } from 'vue';
 const props = defineProps({
   modelValue: { type: String, required: true },
   autofocus: { type: Boolean, default: false },
+  large: { type: Boolean, default: false },
 });
 const emits = defineEmits(['update:modelValue']);
 
@@ -47,7 +50,9 @@ $size: 3rem;
 // TODO Bill nem jön fel autofocuon telon
 .inputBox {
   position: relative;
-  width: 85vw;
+  &.large {
+    width: 85vw;
+  }
   input {
     width: 100%;
     padding: 10px;

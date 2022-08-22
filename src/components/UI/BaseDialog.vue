@@ -9,11 +9,13 @@
         :class="upper ? 'upper' : ''">
         <header class="w-100 p-3" :class="'bg-' + props.type">
           <slot name="header">
-            <h2 class="m-0">{{ title }}</h2>
+            <h2 class="m-0" :class="textColor">{{ title }}</h2>
           </slot>
         </header>
         <section class="p-3">
-          <slot></slot>
+          <form @submit.prevent="trySave">
+            <slot></slot>
+          </form>
         </section>
         <menu
           v-if="!props.fixed && !props.footless"
@@ -65,6 +67,9 @@ function trySave() {
 }
 const twoBtn = computed(() => {
   return props.saveText.length > 0;
+});
+const textColor = computed(() => {
+  return ['primary'].includes(props.type) ? 'text-light' : 'text-dark';
 });
 </script>
 
