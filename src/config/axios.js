@@ -1,3 +1,4 @@
 import axios from 'axios';
 
-axios.defaults.baseURL = 'http://10.0.0.10:3000/';
+axios.defaults.baseURL =
+  process.env.NODE_ENV === 'development' ? 'http://10.0.0.10:3000/' : 'https://csalex.dev:3000/';
