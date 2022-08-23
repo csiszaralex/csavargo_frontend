@@ -69,7 +69,7 @@ const twoBtn = computed(() => {
   return props.saveText.length > 0;
 });
 const textColor = computed(() => {
-  return ['primary'].includes(props.type) ? 'text-light' : 'text-dark';
+  return ['primary', 'danger'].includes(props.type) ? 'text-light' : 'text-dark';
 });
 </script>
 
