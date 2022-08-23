@@ -10,6 +10,8 @@
               <span v-else>&nbsp;▴</span>
             </span>
           </th>
+          <th v-if="acceptable"></th>
+          <th v-if="declineable"></th>
         </tr>
       </thead>
       <tbody>
@@ -19,6 +21,16 @@
             :key="head + i"
             :class="typeof row[head] === 'number' ? 'text-center' : ''">
             {{ row[head] ? row[head] : row[head] === 0 ? 0 : '-' }}
+          </td>
+          <td v-if="props.acceptable">
+            <base-button type="success" size="sm" outline @click="acceptTask(row[acceptable])">
+              ✓
+            </base-button>
+          </td>
+          <td v-if="props.declineable">
+            <base-button type="danger" size="sm" outline @click="declineTask(row[acceptable])">
+              X
+            </base-button>
           </td>
         </tr>
       </tbody>
@@ -32,7 +44,6 @@
 <script setup>
 import { computed, reactive } from 'vue';
 
-//TODO törlés + megerősítés
 const props = defineProps({
   data: { type: Object, required: true },
   ignore: {
@@ -42,11 +53,14 @@ const props = defineProps({
     },
   },
   striped: { type: Boolean, default: false },
+  acceptable: { type: String, default: '' },
+  declineable: { type: String, default: '' },
 });
+const emits = defineEmits(['accept', 'decline']);
 const sort = reactive({ base: '', reverse: false });
-
+//:header
 const headers = computed(() => {
-  const headers = ['#'];
+  const headers = props.ignore.includes('#') ? [] : ['#'];
   for (const piece of props.data) {
     for (const key in piece) {
       if (!headers.includes(key) && !props.ignore.includes(key)) headers.push(key);
@@ -75,6 +89,13 @@ function setSort(head) {
     sort.base = head;
     sort.reverse = false;
   }
+}
+
+function acceptTask(id) {
+  emits('accept', id);
+}
+function declineTask(id) {
+  emits('decline', id);
 }
 </script>
 
