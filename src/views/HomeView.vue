@@ -73,7 +73,7 @@ function toggleQr() {
 }
 function saveQr() {
   axios
-    .post('/qr/available', { code: qr.value })
+    .post('/qr/available', { code: qr.value.toUpperCase() })
     .then(({ data }) => {
       if (!data.available) {
         error.body =
@@ -100,7 +100,7 @@ function getStat() {
   axios.get('/csoport').then(({ data }) => {
     stat.value = [
       ...data.map(i => {
-        return { ...i, Mikor: moment(i.Mikor).subtract(2, 'hours').format('HH:mm') };
+        return { ...i, Mikor: moment(i.Mikor).format('HH:mm') };
       }),
     ];
     szum.value = data.reduce((prev, cur) => prev + cur['Érték'], 0);
