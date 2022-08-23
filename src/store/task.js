@@ -36,5 +36,8 @@ export default {
     changeTask(ctx, { taskId, code }) {
       ctx.commit('changeTask', { taskId, code });
     },
+    removeTasks(ctx) {
+      ctx.commit('changeTask', { taskId: null, code: null });
+    },
   },
 };
