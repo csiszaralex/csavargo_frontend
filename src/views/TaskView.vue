@@ -1,6 +1,7 @@
 <template>
   <div class="test">
-    <div class="question">{{ question }}</div>
+    <div v-if="question.includes('://')"><img :src="question" class="kep" /></div>
+    <div v-else class="question">{{ question }}</div>
     <form @submit.prevent="kuld">
       <base-input v-if="type === 'text'" v-model="answer" large>Válasz</base-input>
       <div v-else class="file">
@@ -142,6 +143,10 @@ onBeforeMount(() => {
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  .kep {
+    width: 100%;
+    height: auto;
+  }
   .question {
     font-size: 2rem;
     margin-bottom: 1.5rem;
