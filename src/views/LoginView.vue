@@ -24,7 +24,9 @@ watch(inp, (val, oldVal) => {
   if (val !== oldVal.toUpperCase()) {
     inp.value = val.toUpperCase();
     if (inp.value.length === 6) {
-      login();
+      setTimeout(() => {
+        login();
+      }, 500);
     }
   }
 });
