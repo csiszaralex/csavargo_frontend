@@ -7,9 +7,6 @@ module.exports = defineConfig({
     workboxPluginMode: 'GenerateSW',
     iconPaths: {
       faviconSVG: 'img/icons/favicon.svg',
-      // favicon192: 'img/icons/csavargo192.png',
-      // favicon96: 'img/icons/csavargo96.png',
-      // favicon72: 'img/icons/csavargo72.png',
       favicon32: 'img/icons/favicon32x32.png',
       favicon16: 'img/icons/favicon16x16.png',
       appleTouchIcon: 'img/icons/ios.png',
