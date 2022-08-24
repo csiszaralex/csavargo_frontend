@@ -12,6 +12,7 @@
           </th>
           <th v-if="acceptable"></th>
           <th v-if="declineable"></th>
+          <th v-if="showable"></th>
         </tr>
       </thead>
       <tbody>
@@ -30,6 +31,11 @@
           <td v-if="props.declineable">
             <base-button type="danger" size="sm" outline @click="declineTask(row[acceptable])">
               X
+            </base-button>
+          </td>
+          <td v-if="props.declineable">
+            <base-button type="success" size="sm" @click="showTask(row[acceptable])">
+              👁
             </base-button>
           </td>
         </tr>
@@ -55,8 +61,9 @@ const props = defineProps({
   striped: { type: Boolean, default: false },
   acceptable: { type: String, default: '' },
   declineable: { type: String, default: '' },
+  showable: { type: String, default: '' },
 });
-const emits = defineEmits(['accept', 'decline']);
+const emits = defineEmits(['accept', 'decline', 'show']);
 const sort = reactive({ base: '', reverse: false });
 //:header
 const headers = computed(() => {
@@ -96,6 +103,9 @@ function acceptTask(id) {
 }
 function declineTask(id) {
   emits('decline', id);
+}
+function showTask(id) {
+  emits('show', id);
 }
 </script>
 
