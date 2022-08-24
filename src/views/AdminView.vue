@@ -21,9 +21,16 @@
         @accept="acceptTask"
         :declineable="selectedOption === 'Jóváhagy' ? 'id' : ''"
         @decline="declineTask"
+        :showable="selectedOption === 'Jóváhagy' ? 'id' : ''"
+        @show="showTask"
         striped>
       </base-table>
     </div>
+    <base-dialog :show="!!img" @close="img = ''" title="Kép" upper>
+      <div class="kep">
+        <img :src="img" />
+      </div>
+    </base-dialog>
   </div>
 </template>
 
@@ -109,16 +116,17 @@ function getAcceptables() {
           return {
             Csoport: adat.csoport,
             Kérdés: adat.kerdes,
-            Válasz: adat.proba,
+            Válasz: adat.tipus === 'text' ? adat.proba : '-',
             Helyes: adat.megoldas,
             Mikor: moment(adat.mikor).format('HH:mm'),
             csopId: adat.csopId,
             felId: adat.felId,
             id: adat.id,
+            tipus: adat.tipus,
           };
         }),
       ];
-      ignore.value = ['csopId', 'felId', 'id', '#'];
+      ignore.value = ['csopId', 'felId', 'id', '#', 'tipus'];
     })
     .catch(err => {
       console.log(err);
@@ -149,6 +157,15 @@ function declineTask(id) {
       alert('Hiba történt!');
     });
 }
+function showTask(id) {
+  const feladat = stat.value.filter(fel => fel.id === id)[0];
+  if (feladat.tipus === 'text') return;
+  axios.get(`feladat/getpicture/${id}`, { responseType: 'blob' }).then(data => {
+    img.value = URL.createObjectURL(data.data);
+  });
+}
+//: Feladat kép
+const img = ref('');
 </script>
 
 <style lang="scss" scoped>
@@ -178,6 +195,11 @@ function declineTask(id) {
         grid-row: 1 / span 2;
       }
     }
+  }
+}
+.kep {
+  img {
+    max-width: 100%;
   }
 }
 </style>
