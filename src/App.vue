@@ -7,11 +7,14 @@
         <component class="flex-grow-1" :is="slotProps.Component" />
       </transition>
     </router-view>
+
+    <the-footer />
   </div>
 </template>
 
 <script setup>
 import TheHeader from './components/layout/TheHeader.vue';
+import TheFooter from './components/layout/TheFooter.vue';
 </script>
 
 <style lang="scss">
