@@ -17,11 +17,11 @@
       <base-table
         :data="stat"
         :ignore="ignore"
-        :acceptable="selectedOption === 'Jóváhagy' ? 'id' : ''"
-        @accept="acceptTask"
+        :acceptable="['Jóváhagy', 'FogyóQR'].includes(selectedOption) ? 'id' : ''"
+        @accept="acceptCb"
         :declineable="selectedOption === 'Jóváhagy' ? 'id' : ''"
         @decline="declineTask"
-        :showable="selectedOption === 'Jóváhagy' ? 'id' : ''"
+        :showable="['Jóváhagy'].includes(selectedOption) ? 'id' : ''"
         @show="showTask"
         striped>
       </base-table>
@@ -40,7 +40,7 @@ import axios from 'axios';
 import moment from 'moment';
 
 //: Options
-const options = ['CsopStat', 'OsztStat', 'Legutóbb', 'Jóváhagy', 'Egyéb'];
+const options = ['CsopStat', 'OsztStat', 'Legutóbb', 'Jóváhagy', 'FogyóQR', 'Egyéb'];
 const selectedOption = ref(options[0]);
 function selectOption(option) {
   selectedOption.value = option;
@@ -51,11 +51,14 @@ function selectOption(option) {
     case 'OsztStat':
       OsztStat();
       break;
-    // case 'Legutóbb':
-    //   getLegutobb();
-    //   break;
+    case 'Legutóbb':
+      getLegutobbi();
+      break;
     case 'Jóváhagy':
       getAcceptables();
+      break;
+    case 'FogyóQR':
+      getRunouts();
       break;
     // case 'Egyéb':
     //   getEgyeb();
@@ -90,7 +93,6 @@ function OsztStat() {
   axios
     .get('/csoport/stat/osztaly')
     .then(({ data }) => {
-      stat.value = data;
       stat.value = [
         ...data.map(adat => {
           return {
@@ -106,16 +108,29 @@ function OsztStat() {
       alert('Hiba történt!');
     });
 }
+function getLegutobbi() {
+  axios.get('feladat/positions').then(({ data }) => {
+    stat.value = [
+      ...data.map(adat => {
+        return {
+          Csoport: adat.csoport,
+          Mikor: moment(adat.mikor).format('HH:mm'),
+          Helyszín: adat.hely,
+        };
+      }),
+    ];
+    ignore.value = ['#'];
+  });
+}
 function getAcceptables() {
   axios
     .get('/feladat/acceptable')
     .then(({ data }) => {
-      stat.value = data;
       stat.value = [
         ...data.map(adat => {
           return {
             Csoport: adat.csoport,
-            Kérdés: adat.kerdes,
+            Kérdés: adat.kerdes.includes('://') ? 'Kép' : adat.kerdes,
             Válasz: adat.tipus === 'text' ? adat.proba : '-',
             Helyes: adat.megoldas,
             Mikor: moment(adat.mikor).format('HH:mm'),
@@ -133,7 +148,33 @@ function getAcceptables() {
       alert('Hiba történt!');
     });
 }
-
+function getRunouts() {
+  axios
+    .get('qr/runout')
+    .then(({ data }) => {
+      stat.value = [
+        ...data.map(adat => {
+          return {
+            Hely: adat.hely,
+            Érték: adat.ertek,
+            Maradt: adat.maradt,
+            Használható: adat.hasznalhato,
+            id: adat.id,
+          };
+        }),
+      ];
+      ignore.value = ['#', 'id'];
+    })
+    .catch(err => {
+      console.log(err);
+      alert('Hiba történt!');
+    });
+}
+//:Választás
+function acceptCb(id) {
+  if (selectedOption.value === 'Jóváhagy') acceptTask(id);
+  else increaseQR(id);
+}
 //:Feladat
 function acceptTask(id) {
   axios
@@ -166,6 +207,18 @@ function showTask(id) {
 }
 //: Feladat kép
 const img = ref('');
+//:QR növelés
+function increaseQR(id) {
+  axios
+    .get(`qr/increase/${id}`)
+    .then(() => {
+      getRunouts();
+    })
+    .catch(err => {
+      console.log(err);
+      alert('Hiba történt!');
+    });
+}
 </script>
 
 <style lang="scss" scoped>
@@ -190,9 +243,12 @@ const img = ref('');
         border-radius: 0 0 0 1rem;
       }
       &:nth-last-of-type(1) {
-        border-radius: 0 1rem 1rem 0;
-        grid-column: 3;
-        grid-row: 1 / span 2;
+        border-radius: 0 0 1rem 0;
+        // grid-column: 3;
+        // grid-row: 1 / span 2;
+      }
+      &:nth-last-of-type(2) {
+        border-radius: 0 1rem 0 0;
       }
     }
   }
