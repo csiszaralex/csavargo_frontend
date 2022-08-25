@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="qr">
-      <base-button type="warning" outline @click="toggleQr">QR kód olvasása</base-button>
+      <base-button type="warning" outline @click="toggleQr">Kód bevitele</base-button>
     </div>
     <div class="stat">
       <h1 class="fw-bold">Előzmények</h1>
@@ -33,14 +33,14 @@
       @close="toggleQr"
       @save="saveQr"
       type="primary"
-      title="QR kód olvasó"
+      title="Kód bevitele"
       closeType="warning"
       closeText="Mégse"
       saveType="success"
       saveText="Küldés"
       reverseFoot>
       <!-- <qr-base></qr-base> -->
-      <base-input v-model="qr">QR kód</base-input>
+      <base-input v-model="qr">Kód</base-input>
     </base-dialog>
     <base-dialog :show="!!error.body" @close="error.body = ''" type="warning" title="Nem talált!">
       <strong>{{ error.body }}</strong>
@@ -77,7 +77,7 @@ function saveQr() {
     .then(({ data }) => {
       if (!data.available) {
         error.body =
-          'Ezt a QR kódot már túl sokan találták meg, de ne csüggedj, még sok lehetőség van a közeltekben!';
+          'Ezt a kódot már túl sokan találták meg, de ne csüggedj, még sok lehetőség van a közeltekben!';
         error.type = 'warning';
         qr.value = '';
         return;

@@ -24,7 +24,7 @@ const admin = computed(() => {
   return store.getters.isAdmin;
 });
 const auth = computed(() => {
-  return store.getters.isLoggedIn;
+  return store.getters.isLoggedIn && process.env.NODE_ENV === 'development';
 });
 function logout() {
   store.dispatch('logout');
